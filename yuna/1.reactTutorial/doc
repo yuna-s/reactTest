@@ -1,0 +1,110 @@
+チュートリアルの準備
+　https://codepen.io/gaearon/pen/oWWQNa?editors=0010
+　上記スターターコードを用いてテストが可能
+概要
+　reactとは
+　　ユーザーインターフェイスを構築するための宣言型javascriptライブラリ
+　　UIをコンポーネントと言う小さく独立した部品から組み立て可能　→　他のライブラリに組み込むこともできる
+　　
+　コンポーネント
+　　コンポーネントは、reactに何を描画したいかを伝えるもの
+　　コンポーネント上のデータが更新された場合、reactは更新箇所のみを再レンダーします。
+
+    例：
+      class ShoppingList extends React.Component {
+        render() {
+          return (
+            <div className="shopping-list">
+              <h1>shopping list for {this.props.name}</h1>
+              <ul>
+               <li>Instagram</li>
+               <li>Oculus</li>
+              </ul>
+            </div>
+          )
+        }
+      }
+
+    ここで、shoppingListは、Reactコンポーネントのクラス、もしくはReactコンポーネントの型と呼ばれます
+    コンポーネントはprops("properties"の略)と呼ばれるパワメータを受け取り、renderメソッドを通じて表示するビューの階層構造を返します
+
+    render()メソッドが返すのは、あなたが画面上に表示したいものの説明書きです
+    Reactはその説明書きを受け取って画面に描画します
+    具体的には、render()は描画すべきものの軽量な記述形式である「React要素」を返します
+    大抵は、JSXを利用して記述されています。
+    render()内では、{}で括れば、どのようなjavascriptの記述も書くことができます。
+    上記例では、<div />などの組み込みのDOMコンポーネントのみをレンダーしていますが、
+    自分で書いたカスタムコンポーネントを組み合わせることも可能です。
+    例えば、<ShoppingList />としてショッピングリスト全体を指し示すことができます。
+    それぞれのreactのコンポーネントはカプセル化されており、独立して動きます。
+
+  スターターコードを確認する
+    class Square extends React.Component {
+      render() {
+        return (
+          <button className="square">
+            {/* TODO */}
+          </button>
+        );
+      }
+    }
+
+    class Board extends React.Component {
+      renderSquare(i) {
+        return <Square />;
+      }
+
+      render() {
+        const status = 'Next player: X';
+
+        return (
+          <div>
+            <div className="status">{status}</div>
+            <div className="board-row">
+              {this.renderSquare(0)}
+              {this.renderSquare(1)}
+              {this.renderSquare(2)}
+            </div>
+            <div className="board-row">
+              {this.renderSquare(3)}
+              {this.renderSquare(4)}
+              {this.renderSquare(5)}
+            </div>
+            <div className="board-row">
+              {this.renderSquare(6)}
+              {this.renderSquare(7)}
+              {this.renderSquare(8)}
+            </div>
+          </div>
+        );
+      }
+    }
+
+    class Game extends React.Component {
+      render() {
+        return (
+          <div className="game">
+            <div className="game-board">
+              <Board />
+            </div>
+            <div className="game-info">
+              <div>{/* status */}</div>
+              <ol>{/* TODO */}</ol>
+            </div>
+          </div>
+        );
+      }
+    }
+
+    // ========================================
+
+    ReactDOM.render(
+      <Game />,
+      document.getElementById('root')
+    );
+    Square（マス目）コンポーネントは 1 つの <button> をレンダーし、Board（盤面）が 9 個のマス目をレンダーしています。
+    Game コンポーネントは盤面と、後ほど埋めることになるプレースホルダーを描画しています
+    この時点では、インタラクティブなコンポーネント（コンポーネント同士の相互作用）はありません
+
+ゲームを完成させる
+タイムトラベル機能の実装
