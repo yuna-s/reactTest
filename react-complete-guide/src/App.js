@@ -24,15 +24,19 @@ class App extends Component {
   };
 
   nameChangeHandler = (event, id) => {
-    const person = this.state.person.findIndex();
-
-    this.setState({
-      persons: [
-        { name: "Tanjiro", age: 18 },
-        { name: "Momonga", age: 20 },
-        { name: "Baby", age: 2 },
-      ],
+    const personIndex = this.state.persons.findIndex((p) => {
+      return p.id === id;
     });
+
+    const person = {
+      ...this.state.persons[personIndex],
+    };
+
+    person.name = event.target.value;
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({ persons: persons });
   };
 
   deletePersonHandler = (personIndex) => {
@@ -64,6 +68,7 @@ class App extends Component {
       persons = (
         <div>
           {this.state.persons.map((person, index) => (
+            // indexは要素が追加されると変化するので、personごとにidを持たせるのがいい
             <Person
               click={() => this.deletePersonHandler(index)}
               name={person.name}
