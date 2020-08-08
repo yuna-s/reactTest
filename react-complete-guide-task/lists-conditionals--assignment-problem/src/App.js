@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Validation from "./Validation/Validation";
+import Char from "./Char/Char";
 import "./App.css";
 
 class App extends Component {
@@ -11,7 +12,27 @@ class App extends Component {
     const txt = event.target.value;
     this.setState({ txt: txt });
   };
+
+  charClickHandler = (charIndex) => {
+    const charlist = this.state.txt
+      .split("")
+      .filter((char, index) => index !== charIndex);
+    const txt = charlist.join("");
+    this.setState({ txt: txt });
+  };
+
   render() {
+    const charlist = this.state.txt.split("").map((char, index) => {
+      return (
+        <Char
+          char={char}
+          key={index}
+          index={index}
+          onClick={this.charClickHandler}
+        />
+      );
+    });
+
     return (
       <div className="App">
         <ol>
@@ -46,8 +67,13 @@ class App extends Component {
         </ol>
         <p>Hint: Keep in mind that JavaScript strings are basically arrays!</p>
 
-        <input type="text" onChange={(event) => this.txtChangeHandler(event)} />
-        <Validation txt={this.state.txt} />
+        <input
+          type="text"
+          onChange={(event) => this.txtChangeHandler(event)}
+          value={this.state.txt}
+        />
+        <Validation txtlength={this.state.txt.length} />
+        {charlist}
       </div>
     );
   }
