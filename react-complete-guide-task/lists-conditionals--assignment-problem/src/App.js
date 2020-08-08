@@ -17,6 +17,7 @@ class App extends Component {
     const charlist = this.state.txt
       .split("")
       .filter((char, index) => index !== charIndex);
+    // const charlist = this.state.txt.splite("").splice(index, 1);
     const txt = charlist.join("");
     this.setState({ txt: txt });
   };
