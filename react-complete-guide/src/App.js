@@ -54,13 +54,21 @@ class App extends Component {
 
   render() {
     const style = {
-      backgroundColor: "White",
+      backgroundColor: "green",
+      color: "white",
       font: "inherit",
       border: "1px solid blue",
       padding: "8px",
       margin: "16px",
       cursor: "pointer",
     };
+    const classes = [];
+    if (this.state.persons.length <= 2) {
+      classes.push("red");
+    }
+    if (this.state.persons.length <= 1) {
+      classes.push("bold");
+    }
 
     let persons = null;
 
@@ -82,6 +90,7 @@ class App extends Component {
     }
     return (
       <div className="App">
+        <p className={classes.join(" ")}>This is really working</p>
         <button style={style} onClick={this.switchNameHandler.bind("Sakamoto")}>
           ChangeName
         </button>
