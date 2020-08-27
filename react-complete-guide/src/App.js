@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Person from "./Person/FuncPerson";
-import Radium from "radium";
+import Radium, { StyleRoot } from "radium";
 import "./App.css";
 
 class App extends Component {
@@ -99,14 +99,20 @@ class App extends Component {
       );
     }
     return (
-      <div className="App">
-        <p className={classes.join(" ")}>This is really working</p>
-        <button style={style} onClick={this.switchNameHandler.bind("Sakamoto")}>
-          ChangeName
-        </button>
-        <button onClick={this.togglePersonsHandler}>Toggle Persons</button>
-        {persons}
-      </div>
+      <StyleRoot>
+        {/**use StyleRoot when we use @keyframes or @media */}
+        <div className="App">
+          <p className={classes.join(" ")}>This is really working</p>
+          <button
+            style={style}
+            onClick={this.switchNameHandler.bind("Sakamoto")}
+          >
+            ChangeName
+          </button>
+          <button onClick={this.togglePersonsHandler}>Toggle Persons</button>
+          {persons}
+        </div>
+      </StyleRoot>
     );
   }
 }
