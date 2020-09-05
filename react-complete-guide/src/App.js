@@ -1,7 +1,24 @@
 import React, { Component } from "react";
 import Person from "./Person/FuncPerson";
 import Radium, { StyleRoot } from "radium";
+import styled from "styled-components";
 import "./App.css";
+
+//通常のCSSの書き方
+const StyledButton = styled.button`
+  background-color: ${(props) => (props.alt ? "red" : "green")};
+  color: white;
+  font: inherit;
+  border: 1px solid blue;
+  padding: 8px;
+  margin: 16px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${(props) => (props.alt ? "salmon" : "lightgreen")};
+    color: black;
+  }
+`;
 
 class App extends Component {
   state = {
@@ -54,6 +71,7 @@ class App extends Component {
   };
 
   render() {
+    // styled with json object
     const style = {
       backgroundColor: "green",
       color: "white",
@@ -68,10 +86,10 @@ class App extends Component {
       },
     };
 
-    style[":hover"] = {
-      backgroundColor: "white",
-      color: "red",
-    };
+    // style[":hover"] = {
+    //   backgroundColor: "white",
+    //   color: "red",
+    // };
     const classes = [];
     if (this.state.persons.length <= 2) {
       classes.push("red");
@@ -103,12 +121,12 @@ class App extends Component {
         {/**use StyleRoot when we use @keyframes or @media */}
         <div className="App">
           <p className={classes.join(" ")}>This is really working</p>
-          <button
-            style={style}
+          <StyledButton
+            alt={this.state.showPersons}
             onClick={this.switchNameHandler.bind("Sakamoto")}
           >
             ChangeName
-          </button>
+          </StyledButton>
           <button onClick={this.togglePersonsHandler}>Toggle Persons</button>
           {persons}
         </div>
