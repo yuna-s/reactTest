@@ -1,17 +1,14 @@
 import React, { Component } from "react";
-import Person from "./Person/FuncPerson";
-import Radium, { StyleRoot } from "radium";
 import styled from "styled-components";
-import "./App.css";
+import Person from "./Person/FuncPerson";
+import classes from "./App.css";
 
-//通常のCSSの書き方
 const StyledButton = styled.button`
   background-color: ${(props) => (props.alt ? "red" : "green")};
   color: white;
   font: inherit;
   border: 1px solid blue;
   padding: 8px;
-  margin: 16px;
   cursor: pointer;
 
   &:hover {
@@ -23,25 +20,15 @@ const StyledButton = styled.button`
 class App extends Component {
   state = {
     persons: [
-      { id: "a", name: "Yuna", age: 22 },
-      { id: "ab", name: "Neko", age: 28 },
-      { id: "ac", name: "Jiro", age: 10 },
+      { id: "asfa1", name: "Max", age: 28 },
+      { id: "vasdf1", name: "Manu", age: 29 },
+      { id: "asdf11", name: "Stephanie", age: 26 },
     ],
-    otherState: "some value",
+    otherState: "some other value",
     showPersons: false,
   };
 
-  switchNameHandler = (newName) => {
-    this.setState({
-      persons: [
-        { name: "Tanjiro", age: 18 },
-        { name: "Momonga", age: 20 },
-        { name: "Baby", age: 2 },
-      ],
-    });
-  };
-
-  nameChangeHandler = (event, id) => {
+  nameChangedHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex((p) => {
       return p.id === id;
     });
@@ -50,7 +37,10 @@ class App extends Component {
       ...this.state.persons[personIndex],
     };
 
+    // const person = Object.assign({}, this.state.persons[personIndex]);
+
     person.name = event.target.value;
+
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
@@ -58,8 +48,7 @@ class App extends Component {
   };
 
   deletePersonHandler = (personIndex) => {
-    // const presons = this.state.persons
-    // 上記だとpointerを代入することになるので、現在のstateを元に更新する際には、コピーした方が良い
+    // const persons = this.state.persons.slice();
     const persons = [...this.state.persons];
     persons.splice(personIndex, 1);
     this.setState({ persons: persons });
@@ -71,68 +60,65 @@ class App extends Component {
   };
 
   render() {
-    // styled with json object
     const style = {
       backgroundColor: "green",
       color: "white",
       font: "inherit",
       border: "1px solid blue",
       padding: "8px",
-      margin: "16px",
       cursor: "pointer",
       ":hover": {
-        backgroundColor: "salmon",
+        backgroundColor: "lightgreen",
         color: "black",
       },
     };
-
-    // style[":hover"] = {
-    //   backgroundColor: "white",
-    //   color: "red",
-    // };
-    const classes = [];
-    if (this.state.persons.length <= 2) {
-      classes.push("red");
-    }
-    if (this.state.persons.length <= 1) {
-      classes.push("bold");
-    }
 
     let persons = null;
 
     if (this.state.showPersons) {
       persons = (
         <div>
-          {this.state.persons.map((person, index) => (
-            // indexは要素が追加されると変化するので、personごとにidを持たせるのがいい
-            <Person
-              click={() => this.deletePersonHandler(index)}
-              name={person.name}
-              age={person.age}
-              key={person.id}
-              changed={(event) => this.nameChangeHandler(event, person.id)}
-            />
-          ))}
+          {this.state.persons.map((person, index) => {
+            return (
+              <Person
+                click={() => this.deletePersonHandler(index)}
+                name={person.name}
+                age={person.age}
+                key={person.id}
+                changed={(event) => this.nameChangedHandler(event, person.id)}
+              />
+            );
+          })}
         </div>
       );
+
+      // style.backgroundColor = 'red';
+      // style[':hover'] = {
+      //   backgroundColor: 'salmon',
+      //   color: 'black'
+      // };
     }
+
+    const assignedclasses = [];
+    if (this.state.persons.length <= 2) {
+      assignedclasses.push("red"); // classes = ['red']
+    }
+    if (this.state.persons.length <= 1) {
+      assignedclasses.push("bold"); // classes = ['red', 'bold']
+    }
+
     return (
-      <StyleRoot>
-        {/**use StyleRoot when we use @keyframes or @media */}
-        <div className="App">
-          <p className={classes.join(" ")}>This is really working</p>
-          <StyledButton
-            alt={this.state.showPersons}
-            onClick={this.switchNameHandler.bind("Sakamoto")}
-          >
-            ChangeName
-          </StyledButton>
-          <button onClick={this.togglePersonsHandler}>Toggle Persons</button>
-          {persons}
-        </div>
-      </StyleRoot>
+      <div className={classes.App}>
+        <h1>Hi, I'm a React App</h1>
+        <p className={assignedclasses.join(" ")}>This is really working!</p>
+        <button className={classes.Button} onClick={this.togglePersonsHandler}>
+          Toggle Persons
+        </button>
+        {persons}
+      </div>
     );
+    // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
   }
 }
 
-export default Radium(App);
+export default App;
